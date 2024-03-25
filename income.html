@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Income</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+      .form-container {
+        max-width: 100%;
+        margin: auto;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-left: 70px;
+      }
+
+      input,
+      select,
+      button {
+        margin-bottom: 20px;
+        color: #12372a;
+        width: 100%;
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-weight: bold;
+        font-size: 15px;
+      }
+
+      label {
+        margin-bottom: 20px;
+        color: #fbfada;
+        width: 100%;
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-weight: bold;
+        font-size: 25px;
+      }
+
+      h2 {
+        margin-bottom: 20px;
+        color: #fbfada;
+        width: 100%;
+        font-family: Georgia, "Times New Roman", Times, serif;
+        font-weight: bold;
+        margin-left: 315px;
+        font-size: 30px;
+        margin-top: 0;
+      }
+
+      button {
+        background-color: #12372a;
+        color: #fbfada;
+        width: 700px;
+        padding: 10px;
+        box-sizing: border-box;
+        height: 100%;
+        cursor: pointer;
+        transition: background-color 0.5s ease;
+      }
+
+      button:hover {
+        background-color: #fbfada;
+        color: #12372a;
+      }
+
+      input[type="text"],
+      select {
+        width: 700px;
+        padding: 10px;
+        box-sizing: border-box;
+        height: 100%;
+      }
+    </style>
+  </head>
+
+  <body>
+    <nav id="navbar">
+      <img
+        src="image/uang.png"
+        alt="Ini Uang"
+        style="width: 100%; height: auto"
+      />
+      <ul class="navbar-items flexbox-col">
+        <li class="navbar-item flexbox-left">
+          <a href="main.html" class="navbar-item-inner flexbox-left">
+            <div class="navbar-item-inner-icon-wrapper flexbox">
+              <ion-icon name="search-outline"></ion-icon>
+            </div>
+            <span class="link-text">Main</span>
+          </a>
+        </li>
+        <li class="navbar-item flexbox-left">
+          <a href="income.html" class="navbar-item-inner flexbox-left">
+            <div class="navbar-item-inner-icon-wrapper flexbox">
+              <ion-icon name="home-outline"></ion-icon>
+            </div>
+            <span class="link-text">Income</span>
+          </a>
+        </li>
+        <li class="navbar-item flexbox-left">
+          <a href="outcome.html" class="navbar-item-inner flexbox-left">
+            <div class="navbar-item-inner-icon-wrapper flexbox">
+              <ion-icon name="folder-open-outline"></ion-icon>
+            </div>
+            <span class="link-text">Outcome</span>
+          </a>
+        </li>
+        <li class="navbar-item flexbox-left">
+          <a href="aboutus.html" class="navbar-item-inner flexbox-left">
+            <div class="navbar-item-inner-icon-wrapper flexbox">
+              <ion-icon name="pie-chart-outline"></ion-icon>
+            </div>
+            <span class="link-text">About Us</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="form-container">
+      <h2>Your Income</h2>
+      <form id="incomeForm">
+        <label for="transactionName">Nama Transaksi</label>
+        <input type="text" id="transactionName" name="transactionName" />
+
+        <label for="transactionNominal">Nominal Transaksi</label>
+        <input type="text" id="transactionNominal" name="transactionNominal" />
+
+        <label for="transactionType">Jenis Transaksi</label>
+        <select id="transactionType" name="transactionType">
+          <option value="" disabled selected>Category</option>
+          <option value="Makan">Makan</option>
+          <option value="Main">Main</option>
+          <option value="Belanja">Belanja</option>
+          <option value="Edukasi">Edukasi</option>
+          <option value="Lainnya">Lainnya</option>
+        </select>
+
+        <button type="submit">Kirim</button>
+      </form>
+    </div>
+
+    <script>
+      document
+        .getElementById("incomeForm")
+        .addEventListener("submit", function (event) {
+          event.preventDefault(); 
+
+          var transactionName = document
+            .getElementById("transactionName")
+            .value.trim();
+          var transactionNominal = document
+            .getElementById("transactionNominal")
+            .value.trim();
+          var transactionType =
+            document.getElementById("transactionType").value;
+
+          if (
+            transactionName !== "" &&
+            transactionNominal !== "" &&
+            transactionType !== ""
+          ) {
+            var amount = parseFloat(transactionNominal.replace(/\D/g, ""));
+
+            var transaction = {
+              name: transactionName,
+              amount: amount,
+              type: transactionType,
+            };
+
+            var transactions =
+              JSON.parse(localStorage.getItem("transactions")) || [];
+            transactions.push(transaction);
+            localStorage.setItem("transactions", JSON.stringify(transactions));
+
+            window.alert("Yey uangnya nambah!");
+
+            window.location.href = "main.html";
+          } else {
+        
+            window.alert(
+              "Ih belom selesai, isi semua dulu!"
+            );
+          }
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+.transaction-container1 {
+  background-color: #12372a;
+  border-radius: 20px;
+  padding: 20px;
+  margin-top: 20px;
+  height: 70%;
+  overflow-y: auto;
+  width: 35%;
+  margin-left: 0px;
+}
+
+.transaction {
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.income {
+  background-color: #d9ead3;
+  border: 1px solid #a3c293;
+}
+
+.outcome {
+  background-color: #f8cecc;
+  border: 1px solid #e38d8b;
+}
+
+.transaction-time {
+  font-size: 12px;
+  color: #666;
+}
+
+.transaction-container1 h2 {
+  color: #fbfada;
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-weight: bold;
+  font-family: Georgia, "Times New Roman", Times, serif;
+  font-size: 30px;
+}
+
+#transactionList {
+  list-style-type: none;
+  padding: 0;
+}
+
+.transaction p {
+  margin: 0;
+  color: #fbfada;
+}

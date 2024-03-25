@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Main Page</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="transaction.css" />
+  </head>
+
+  <body>
+    <nav id="navbar">
+      <img
+        src="image/uang.png"
+        alt="Ini Uang"
+        style="width: 100%; height: auto"
+      />
+      <ul class="navbar-items flexbox-col">
+        <li class="navbar-item flexbox-left">
+          <a href="main.html" class="navbar-item-inner flexbox-left">
+            <div class="navbar-item-inner-icon-wrapper flexbox">
+              <ion-icon name="search-outline"></ion-icon>
+            </div>
+            <span class="link-text">Main</span>
+          </a>
+        </li>
+        <li class="navbar-item flexbox-left">
+          <a href="income.html" class="navbar-item-inner flexbox-left">
+            <div class="navbar-item-inner-icon-wrapper flexbox">
+              <ion-icon name="home-outline"></ion-icon>
+            </div>
+            <span class="link-text">Income</span>
+          </a>
+        </li>
+        <li class="navbar-item flexbox-left">
+          <a href="outcome.html" class="navbar-item-inner flexbox-left">
+            <div class="navbar-item-inner-icon-wrapper flexbox">
+              <ion-icon name="folder-open-outline"></ion-icon>
+            </div>
+            <span class="link-text">Outcome</span>
+          </a>
+        </li>
+        <li class="navbar-item flexbox-left">
+          <a href="aboutus.html" class="navbar-item-inner flexbox-left">
+            <div class="navbar-item-inner-icon-wrapper flexbox">
+              <ion-icon name="pie-chart-outline"></ion-icon>
+            </div>
+            <span class="link-text">About Us</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="balance-container">
+      <h2>Balance :</h2>
+      <p id="balance">Rp 0</p>
+    </div>
+    <div class="transaction-container1">
+      <h2>Transactions :</h2>
+      <div id="transactionList"></div>
+    </div>
+
+    <div id="usernameDisplay" class="welcome-message"></div>
+
+    <button id="clearTransactionsButton">Clear Transactions</button>
+
+    <script>
+      var username = sessionStorage.getItem("username");
+      if (username) {
+        var usernameDisplay = document.getElementById("usernameDisplay");
+        usernameDisplay.textContent = "Welcome, " + username + "!";
+      } else {
+        var usernameDisplay = document.getElementById("usernameDisplay");
+        usernameDisplay.textContent = "Please log in to continue.";
+      }
+    </script>
+
+    <script>
+      window.addEventListener("load", function () {
+        loadTransactions();
+        updateBalance();
+      });
+
+      function loadTransactions() {
+        var transactionList = document.getElementById("transactionList");
+        transactionList.innerHTML = "";
+
+        var transactions =
+          JSON.parse(localStorage.getItem("transactions")) || [];
+        transactions.forEach(function (transaction) {
+          var transactionItem = document.createElement("div");
+          transactionItem.textContent =
+            transaction.name + " - " + transaction.amount;
+
+          if (transaction.amount >= 0) {
+            transactionItem.classList.add("income");
+          } else {
+            transactionItem.classList.add("outcome");
+          }
+
+          transactionList.appendChild(transactionItem);
+        });
+      }
+
+      function updateBalance() {
+        var balance = 0;
+        var transactions =
+          JSON.parse(localStorage.getItem("transactions")) || [];
+        transactions.forEach(function (transaction) {
+          balance += parseFloat(transaction.amount);
+        });
+
+        var balanceElement = document.getElementById("balance");
+        balanceElement.textContent = "Rp " + balance.toLocaleString("id-ID");
+      }
+
+      function loadTransactions() {
+        var transactionList = document.getElementById("transactionList");
+        transactionList.innerHTML = "";
+
+        var transactions =
+          JSON.parse(localStorage.getItem("transactions")) || [];
+        transactions.forEach(function (transaction) {
+          var transactionItem = document.createElement("div");
+          transactionItem.classList.add("transaction-item");
+
+          var transactionName = document.createElement("div");
+          transactionName.classList.add("transaction-name");
+          transactionName.textContent =
+            transaction.name + " - " + transaction.type;
+          transactionItem.appendChild(transactionName);
+
+          var transactionAmount = document.createElement("div");
+          transactionAmount.classList.add("transaction-amount");
+          transactionAmount.textContent = "Rp " + transaction.amount;
+          transactionItem.appendChild(transactionAmount);
+
+          if (transaction.amount >= 0) {
+            transactionItem.classList.add("income");
+          } else {
+            transactionItem.classList.add("outcome");
+          }
+
+          transactionList.appendChild(transactionItem);
+        });
+      }
+    </script>
+
+    <script>
+      var clearTransactionsButton = document.getElementById(
+        "clearTransactionsButton"
+      );
+
+      clearTransactionsButton.addEventListener("click", function () {
+        var confirmation = confirm("Yakin mau hapus semua?");
+
+        if (confirmation) {
+          localStorage.removeItem("transactions");
+
+          alert("Ok kita hapus ya");
+
+          window.location.reload();
+        }
+      });
+    </script>
+  </body>
+</html>
